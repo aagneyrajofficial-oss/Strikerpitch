@@ -7,7 +7,7 @@ import numpy as np
 
 # Page configuration
 st.set_page_config(
-    page_title="GoalMind AI - Live Match & Virtual Coach",
+    page_title="StrikerPitch - Live Match & Virtual Coach",
     page_icon="⚽",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -67,20 +67,25 @@ if 'last_frame_variance' not in st.session_state:
 
 # Comprehensive Player Database with photos and custom quotes
 PLAYER_DATABASE = {
+    "Cristiano Ronaldo": {
+        "image": "https://upload.wikimedia.org/wikipedia/commons/8/8c/Cristiano_Ronaldo_2018.jpg",
+        "video_tutorial": "https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ",
+        "quote": "Power comes from core stability and explosive acceleration!"
+    },
+    "Thierry Henry": {
+        "image": "https://upload.wikimedia.org/wikipedia/commons/1/1d/Thierry_Henry_2016_%28cropped%29.jpg",
+        "video_tutorial": "https://www.youtube-nocookie.com/embed/3JZ_D3ELwOQ",
+        "quote": "Open up your body shape and curl the ball into the far corner with the inside of your boot."
+    },
+    "Lionel Messi": {
+        "image": "https://upload.wikimedia.org/wikipedia/commons/b/b4/Lionel-Messi-Argentina-2022-%28cropped%29.jpg",
+        "video_tutorial": "https://www.youtube-nocookie.com/embed/9bZkp7q19f0",
+        "quote": "Close control is everything. Keep the ball glued to your laces."
+    },
     "Lamine Yamal": {
         "image": "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=300",
         "video_tutorial": "https://www.youtube-nocookie.com/embed/9bZkp7q19f0",
         "quote": "Keep your center of gravity low and explode out of your cuts!"
-    },
-    "Lionel Messi": {
-        "image": "https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=300",
-        "video_tutorial": "https://www.youtube-nocookie.com/embed/3JZ_D3ELwOQ",
-        "quote": "Close control is everything. Keep the ball glued to your laces."
-    },
-    "Cristiano Ronaldo": {
-        "image": "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=300",
-        "video_tutorial": "https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ",
-        "quote": "Power comes from core stability and explosive acceleration!"
     },
     "Kevin De Bruyne": {
         "image": "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=300",
@@ -96,8 +101,8 @@ PLAYER_DATABASE = {
 
 # ----------------- SIDEBAR -----------------
 with st.sidebar:
-    st.image("https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=400", width='stretch')
-    st.title("⚙️ GoalMind Hub")
+    st.image("https://upload.wikimedia.org/wikipedia/commons/8/8c/Cristiano_Ronaldo_2018.jpg", width=250)
+    st.title("⚙️ StrikerPitch Hub")
     st.success("🟢 Public Share Mode Ready")
     
     st.markdown("---")
@@ -105,7 +110,7 @@ with st.sidebar:
     user_name = st.text_input("Your Name", "Alex")
     
     # Universal Player Search Box (Type any player name)
-    search_query = st.text_input("🔍 Search Any Football Player", "Lamine Yamal").strip()
+    search_query = st.text_input("🔍 Search Any Football Player", "Cristiano Ronaldo").strip()
     
     # Check if player exists in database (case-insensitive search match)
     matched_player = None
@@ -120,21 +125,21 @@ with st.sidebar:
         st.success(f"✅ Found Coach: {favorite_player}")
     else:
         # Fallback if player doesn't exist
-        favorite_player = "Lamine Yamal"
+        favorite_player = "Cristiano Ronaldo"
         coach_data = PLAYER_DATABASE[favorite_player]
         if search_query:
-            st.warning(f"❌ No players found matching '{search_query}'. Defaulting to Lamine Yamal.")
+            st.warning(f"❌ No players found matching '{search_query}'. Defaulting to Cristiano Ronaldo.")
             
     # Display selected or fallback player's photo instantly
-    st.image(coach_data["image"], width='stretch')
+    st.image(coach_data["image"], width=250)
     
     st.markdown("---")
     st.markdown(f"### 🏆 Current Rank: Level {st.session_state.current_level}")
     st.metric("Total Score", f"{st.session_state.points} pts")
 
 # ----------------- MAIN HEADER -----------------
-st.title("⚽ GoalMind AI: Live Match & Virtual Coach")
-st.markdown(f"Train live with **{favorite_player}** coaching you side-by-side, watch live/past matches, and share your app with anyone!")
+st.title("⚽ StrikerPitch: Live Match & Virtual Coach")
+st.markdown(f"Train live with **{favorite_player}** coaching you side-by-side, watch match archives, and share your app with anyone!")
 
 # ----------------- TABS -----------------
 tab1, tab2, tab3, tab4, tab5 = st.tabs([
@@ -215,7 +220,7 @@ with tab2:
             return frame
 
         webrtc_streamer(
-            key="goalmind-live-coach-v4",
+            key="strikerpitch-live-coach-v4",
             mode=WebRtcMode.SENDRECV,
             rtc_configuration=RTCConfiguration({"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}),
             video_frame_callback=video_frame_callback,
@@ -298,7 +303,8 @@ with tab5:
        streamlit-webrtc
        av
        numpy
+       opencv-python-headless
        ```
     2. **Deploy on Streamlit Community Cloud**: Go to [share.streamlit.io](https://share.streamlit.io), log in with GitHub, and click **New App**.
-    3. **Publish**: Select your repository and `app.py` file, then click **Deploy**! Streamlit will give you a public live link (e.g., `goalmind-ai.streamlit.app`) that anyone in the world can open on their phone or laptop.
+    3. **Publish**: Select your repository and `app.py` file, then click **Deploy**! Streamlit will give you a public live link (e.g., `strikerpitch.streamlit.app`) that anyone in the world can open on their phone or laptop.
     """)
