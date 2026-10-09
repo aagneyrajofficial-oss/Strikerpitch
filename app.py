@@ -164,16 +164,31 @@ with tab1:
             
     else:
         st.markdown("### 🗄️ Past Match Replay Vault")
-        archive_search = st.text_input("🔍 Search Past Matches:", "Champions League Classic Final")
         
-        past_match = st.selectbox("Choose Archived Match Replay:", [
+        # Fixed: Archive search box now actively filters the dropdown list
+        archive_search = st.text_input("🔍 Search Past Matches:", "").strip().lower()
+        
+        all_archives = [
             "Classic 2023 Title Decider - Full Match Highlights",
             "Historic Semi-Final Tactical Masterclass Replay",
-            "International Championship Thriller - Full Replay"
-        ])
+            "International Championship Thriller - Full Replay",
+            "UEFA Champions League Final - Full Archive",
+            "Premier League Title Clash - Full Match Replay"
+        ]
         
-        st.components.v1.iframe("https://www.youtube-nocookie.com/embed/3JZ_D3ELwOQ", height=450, scrolling=False)
-
+        filtered_archives = [m for m in all_archives if archive_search in m.lower()] if archive_search else all_archives
+        
+        if not filtered_archives:
+            st.warning("No matching archives found. Showing all matches:")
+            filtered_archives = all_archives
+            
+        past_match = st.selectbox("Choose Archived Match Replay:", filtered_archives)
+        
+        # Display corresponding video based on selection
+        if "Semi-Final" in past_match or "Classic" in past_match:
+            st.components.v1.iframe("https://www.youtube-nocookie.com/embed/3JZ_D3ELwOQ", height=450, scrolling=False)
+        else:
+            st.components.v1.iframe("https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ", height=450, scrolling=False)
 # --- TAB 2: VIRTUAL COACH & LIVE CAMERA ---
 with tab2:
     st.subheader(f"🤖 Virtual Coach Arena — {favorite_player}")
